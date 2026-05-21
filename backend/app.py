@@ -1,119 +1,31 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from transformers import pipeline
-from fastapi.middleware.cors import CORSMiddleware
+import gradio as gr
+from huggingface_hub import InferenceClient
+import os
 
-app = FastAPI()
+HF_TOKEN = os.getenv("HF_TOKEN")
 
-# CORS FIX
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+client = InferenceClient(
+    token=HF_TOKEN,
+    model="mistralai/Mistral-7B-Instruct-v0.2"
 )
 
-# AI MODEL
-sentiment_model = pipeline(
-    "sentiment-analysis",
-    model="distilbert-base-uncased-finetuned-sst-2-english"
-)
+def chat(message, history):
+    messages = []
 
+    for user, bot in history:
+        messages.append({"role": "user", "content": user})
+        messages.append({"role": "assistant", "content": bot})
 
-class TextInput(BaseModel):
-    text: str
-class TextInput(BaseModel):
-    text: str
-    lang: str = "en"
+    messages.append({"role": "user", "content": message})
 
+    response = client.chat_completion(
+        messages,
+        max_tokens=200,
+        temperature=0.7
+    )
 
-@app.get("/")
-def home():
-    return {"message": "SparkGen AI v2 is running"}
+    return response.choices[0].message["content"]
 
+demo = gr.ChatInterface(fn=chat, title="SparkGen AI v2 🤖")
 
-@app.post("/predict")
-def predict(data: TextInput):
-
-    result = sentiment_model(data.text)
-
-    return {
-        "input": data.text,
-        "prediction": result
-    }
-
-
-@app.post("/emotion")
-def emotion(data: TextInput):
-
-    text = data.text.lower()
-
-    if any(x in text for x in ["happy", "love", "great"]):
-        emotion = "happy 😄"
-
-    elif any(x in text for x in ["angry", "mad"]):
-        emotion = "angry 😡"
-
-    elif any(x in text for x in ["sad", "cry"]):
-        emotion = "sad 😢"
-
-    elif any(x in text for x in ["fear", "scared"]):
-        emotion = "fear 😨"
-
-    else:
-        emotion = "neutral 😐"
-
-    return {
-        "text": data.text,
-        "emotion": emotion
-    }
-
-
-@app.post("/chat")
-def chat(data: TextInput):
-
-    text = data.text.lower()
-    lang = data.lang
-
-    # ENGLISH RESPONSES
-    if lang == "en":
-
-        if "hello" in text:
-            reply = "Hello! I am SparkGen AI 🤖"
-
-        elif "name" in text:
-            reply = "I am SparkGen AI built by Hussain Adam Umar 🚀"
-
-        elif "happy" in text:
-            reply = "That is wonderful to hear 😄"
-
-        elif "sad" in text:
-            reply = "I hope things get better soon 💙"
-
-        else:
-            reply = f"You said: {data.text}"
-
-    # HAUSA RESPONSES
-    else:
-
-        if "hello" in text:
-            reply = "Sannu! Ni SparkGen AI ne 🤖"
-
-        elif "name" in text:
-            reply = "Ni SparkGen AI wanda Hussain Adam Umar ya gina 🚀"
-
-        elif "happy" in text:
-            reply = "Muna farin ciki da jin haka 😄"
-
-        elif "sad" in text:
-            reply = "Ina fatan abubuwa za su gyaru 💙"
-
-        else:
-            reply = f"Kayi cewa: {data.text}"
-
-    return {
-        "input": data.text,
-        "reply": reply,
-        "language": lang
-    }
+demo.launch(server_name="0.0.0.0", server_port=7860)
