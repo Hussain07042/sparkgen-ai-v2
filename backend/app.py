@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from transformers import pipeline
 from fastapi.middleware.cors import CORSMiddleware
@@ -117,3 +118,19 @@ def chat(data: TextInput):
         "reply": reply,
         "language": lang
     }
+
+
+@app.get("/ui", response_class=HTMLResponse)
+def ui():
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>SparkGen AI v2</title>
+    </head>
+    <body style="text-align:center;font-family:Arial;margin-top:100px;">
+    <h1>🚀 SparkGen AI v2</h1>
+    <p>Your AI is working successfully</p>
+    </body>
+    </html>
+    """
