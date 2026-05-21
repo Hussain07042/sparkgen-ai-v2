@@ -1,18 +1,26 @@
 import gradio as gr
 
-def chat(message):
-    return f"🤖 SparkGen AI: You said -> {message}"
+# Simple AI-style chatbot (safe fallback, no API needed)
+def chat(message, history):
+    history = history or []
 
-demo = gr.Interface(
-    fn=chat,
-    inputs="text",
-    outputs="text",
-    title="SparkGen AI V2",
-    description="Simple working AI chat (Railway safe version)"
+    response = f"🤖 SparkGen AI: I received your message -> {message}"
+
+    history.append((message, response))
+    return history, history
+
+with gr.Blocks(title="SparkGen AI V2") as demo:
+    gr.Markdown("# 🤖 SparkGen AI V2")
+    gr.Markdown("Simple working AI chat (Railway deployment safe)")
+
+    chatbot = gr.Chatbot()
+    msg = gr.Textbox(label="Type your message")
+
+    state = gr.State([])
+
+    msg.submit(chat, inputs=[msg, state], outputs=[chatbot, state])
+
+demo.launch(
+    server_name="0.0.0.0",
+    server_port=7860
 )
-
-if __name__ == "__main__":
-    demo.launch(
-        server_name="0.0.0.0",
-        server_port=8000
-    )
