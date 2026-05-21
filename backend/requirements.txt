@@ -1,5 +1,2 @@
 gradio==6.5.1
-fastapi
-uvicorn
 urllib3
-requests
