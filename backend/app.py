@@ -1,3 +1,4 @@
+import os
 import gradio as gr
 
 # Simple AI-style chatbot (safe fallback, no API needed)
@@ -20,7 +21,8 @@ with gr.Blocks(title="SparkGen AI V2") as demo:
 
     msg.submit(chat, inputs=[msg, state], outputs=[chatbot, state])
 
+port = int(os.environ.get("PORT", 7860))
 demo.launch(
     server_name="0.0.0.0",
-    server_port=7860
+    server_port=port
 )
