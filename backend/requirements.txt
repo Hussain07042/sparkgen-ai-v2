@@ -1,9 +1,5 @@
+gradio==6.5.1
 fastapi
 uvicorn
-gradio
-transformers
-torch
-huggingface_hub
 urllib3
 requests
-python-dotenv
