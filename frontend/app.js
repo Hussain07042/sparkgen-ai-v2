@@ -1,66 +1,35 @@
-const API = "http://127.0.0.1:8000";
+function sendMessage() {
+  let input = document.getElementById("input");
+  let chat = document.getElementById("chat");
 
+  let userText = input.value;
+  if (!userText) return;
 
-// ================= CHAT =================
-async function chat() {
+  chat.innerHTML += "<p><b>You:</b> " + userText + "</p>";
 
-    let text = document.getElementById("chatInput").value;
-    let lang = document.getElementById("langSelect").value;
+  let response = getAIResponse(userText);
 
-    let res = await fetch("http://127.0.0.1:8000/chat", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ text, lang })
-    });
+  chat.innerHTML += "<p><b>AI:</b> " + response + "</p>";
 
-    let data = await res.json();
-
-    document.getElementById("chatResult").innerHTML +=
-        `<div class="bot">🤖 ${data.reply}</div>`;
+  input.value = "";
+  chat.scrollTop = chat.scrollHeight;
 }
 
+function getAIResponse(text) {
+  text = text.toLowerCase();
 
-// ================= EMOTION =================
-async function emotion() {
+  if (text.includes("hello")) {
+    return "Hello 👋 I am SparkGen AI V2";
+  }
+  if (text.includes("sad")) {
+    return "I'm here for you ❤️";
+  }
+  if (text.includes("happy")) {
+    return "That's amazing 😄";
+  }
+  if (text.includes("ai")) {
+    return "AI means machines that simulate human intelligence 🤖";
+  }
 
-    let text = document.getElementById("emotionInput").value;
-
-    if (!text) return;
-
-    let res = await fetch(`${API}/emotion`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ text })
-    });
-
-    let data = await res.json();
-
-    document.getElementById("emotionResult").innerText =
-        "Emotion: " + data.emotion;
-}
-
-
-// ================= SENTIMENT =================
-async function predict() {
-
-    let text = document.getElementById("sentimentInput").value;
-
-    if (!text) return;
-
-    let res = await fetch(`${API}/predict`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ text })
-    });
-
-    let data = await res.json();
-
-    let result = data.prediction[0];
-
-    document.getElementById("sentimentResult").innerText =
-        `${result.label} (${result.score.toFixed(2)})`;
+  return "I don't understand yet, but I'm learning 🤖";
 }
