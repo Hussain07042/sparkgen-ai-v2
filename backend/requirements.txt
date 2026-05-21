@@ -1,2 +1,9 @@
+fastapi
+uvicorn
 gradio
 huggingface_hub
+transformers
+torch
+requests
+urllib3
+python-dotenv
