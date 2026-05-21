@@ -1,9 +1,9 @@
 fastapi
 uvicorn
 gradio
-huggingface_hub
 transformers
 torch
-requests
+huggingface_hub
 urllib3
+requests
 python-dotenv
