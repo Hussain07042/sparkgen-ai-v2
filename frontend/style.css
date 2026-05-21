@@ -1,60 +1,31 @@
 body {
-  margin: 0;
-  font-family: 'Segoe UI';
-  background: #0d1117;
+  font-family: Arial;
+  background: #0f172a;
   color: white;
+  text-align: center;
 }
 
 .container {
-  max-width: 900px;
+  width: 90%;
+  max-width: 600px;
   margin: auto;
-  padding: 20px;
+  margin-top: 50px;
 }
 
-.header {
-  text-align: center;
-  padding: 20px;
+#chat {
+  background: #1e293b;
+  height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
 }
 
-.header h1 {
-  color: #00aaff;
-}
-
-.card {
-  background: #161b22;
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: 12px;
-  border: 1px solid #30363d;
-}
-
-input, select {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: none;
-  background: #0d1117;
-  color: white;
-  border: 1px solid #30363d;
+input {
+  width: 70%;
+  padding: 10px;
 }
 
 button {
-  background: #00aaff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0088cc;
-}
-
-.bot {
-  background: #21262d;
   padding: 10px;
-  margin-top: 10px;
-  border-radius: 8px;
 }
