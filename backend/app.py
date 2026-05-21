@@ -1,37 +1,30 @@
 import os
 import gradio as gr
 
-# Simple AI-style chatbot logic (safe fallback working version)
-def respond(message, history):
+# Simple AI Chat (NO API KEYS NEEDED - SAFE DEMO VERSION)
+
+def chat(message, history):
     message = message.lower()
 
-    if "sad" in message or "angry" in message:
-        return "I understand how you feel. I'm here with you ❤️"
+    if "hello" in message:
+        return "Hello 👋 I'm SparkGen AI. How can I help you today?"
+
+    elif "sad" in message or "not happy" in message:
+        return "I'm sorry you're feeling that way 😔. I'm here for you."
+
     elif "happy" in message:
-        return "That’s great! Keep smiling 😊"
-    elif "love" in message:
-        return "Love is a beautiful feeling 💙"
-    elif "hello" in message:
-        return "Hello! I am SparkGen AI 🤖"
+        return "That's great 😊 Keep smiling!"
+
+    elif "ai" in message:
+        return "AI means Artificial Intelligence — like me 🤖"
+
+    elif "bye" in message:
+        return "Goodbye 👋 Take care!"
+
     else:
-        return f"You said: {message}"
+        return "I am SparkGen AI V2 🤖 I can chat, motivate you, and answer simple questions."
 
-# Gradio UI
-demo = gr.ChatInterface(
-    fn=respond,
-    title="SparkGen AI V2",
-    description="Simple working AI chat (Railway safe)"
-)
+demo = gr.ChatInterface(fn=chat, title="SparkGen AI V2")
 
-# IMPORTANT: Railway PORT FIX
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 7860))
-    import os
-
-port = int(os.environ.get("PORT", 7860))
-
-demo.launch(
-    server_name="0.0.0.0",
-    server_port=port
-)
-    )
+    demo.launch()
