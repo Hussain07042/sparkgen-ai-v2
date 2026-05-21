@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - SparkGen AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Login to SparkGen AI</h1>
+
+    <div class="card">
+        <input id="email" placeholder="Email">
+        <input id="password" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="signup.html">Signup</a></p>
+    </div>
+</div>
+
+<script>
+async function login(){
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    let res = await fetch("http://127.0.0.1:8000/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ text: email + "," + password })
+    });
+
+    let data = await res.json();
+
+    if(data.status === "success"){
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Login failed");
+    }
+}
+</script>
+
+</body>
+</html>

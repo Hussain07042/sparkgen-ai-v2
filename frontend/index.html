@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SparkGen AI v2</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>SparkGen AI</h1>
+    <p>Built by Hussain Adam Umar</p>
+  </div>
+
+  <!-- CHAT -->
+   <select id="langSelect">
+  <option value="en">English</option>
+  <option value="ha">Hausa</option>
+</select>
+  <div class="card">
+    <h2>AI Chat</h2>
+    <input id="chatInput" placeholder="Type something..." />
+    <button onclick="chat()">Send</button>
+    <div id="chatResult"></div>
+  </div>
+
+  <!-- EMOTION -->
+  <div class="card">
+    <h2>Emotion Detector</h2>
+    <input id="emotionInput" placeholder="Enter text..." />
+    <button onclick="emotion()">Detect</button>
+    <p id="emotionResult"></p>
+  </div>
+
+  <!-- SENTIMENT -->
+  <div class="card">
+    <h2>Sentiment Analysis</h2>
+    <input id="sentimentInput" placeholder="Enter text..." />
+    <button onclick="predict()">Analyze</button>
+    <p id="sentimentResult"></p>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
